@@ -1,0 +1,50 @@
+type Done
+  @model
+  @searchable
+  @auth(rules: [{ allow: owner, identityField: "sub" }]) {
+  id: ID!
+  name: String!
+  description: String
+  doneDate: String
+  category: Category @connection
+  imageFile: S3Object!
+  isDone: Boolean! # if not done, this will be a glory wish
+  createdAt: String
+  #pour plus tard : tags: [String]
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type CustomView @model {
+  # a view = categories + specific dones exception include / exception exclude
+  id: ID!
+  includedDones: [Done] @connection
+  excludedDones: [Done] @connection
+  name: String!
+  accessType: String! #possible values:private, protected, public
+  categories: [Category] @connection
+  owner: String
+  createdAt: String
+}
+
+type Category @model {
+  id: ID!
+  name: String
+  #pour plus tard : aliases: [String]
+}
+
+type User
+  @model(
+    queries: { get: "getUser" }
+    mutations: { create: "registerUser", update: "updateUser" }
+    subscriptions: null
+  ) {
+  id: ID!
+  username: String!
+  email: String!
+  registered: Boolean
+}

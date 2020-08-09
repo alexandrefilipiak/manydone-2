@@ -10,6 +10,11 @@
             "StackName": "amplify-manydone2-dev-234905",
             "StackId": "arn:aws:cloudformation:us-east-1:174803026135:stack/amplify-manydone2-dev-234905/3a2f20a0-d9b0-11ea-b058-0e2e9aec3a21",
             "AmplifyAppId": "d1zn8vtb26bd40"
+        },
+        "categories": {
+            "auth": {
+                "manydone20890494f": {}
+            }
         }
     }
 }

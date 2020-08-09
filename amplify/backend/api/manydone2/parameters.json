@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "manydone2",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authmanydone20890494f",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
