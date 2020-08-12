@@ -7,8 +7,8 @@ type Done
   description: String
   doneDate: String
   category: Category @connection
-  imageFile: S3Object!
-  isDone: Boolean! # if not done, this will be a glory wish
+  imageFile: S3Object
+  isDone: Boolean # if not done, this will be a glory wish
   createdAt: String
   #pour plus tard : tags: [String]
 }
