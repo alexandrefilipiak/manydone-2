@@ -10,6 +10,8 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import { render } from "@testing-library/react";
 
+export const UserContext = React.createContext();
+
 class App extends React.Component {
   state = {
     user: null,
@@ -58,25 +60,27 @@ class App extends React.Component {
     return !user ? (
       <Authenticator theme={theme}></Authenticator>
     ) : (
-      <Router>
-        <>
-          {/* Navigation */}
-          <Navbar user={user} handleSignout={this.handleSignout} />
-          {/* Routes */}
-          <div className="app-container">
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/profile" component={ProfilePage} />
-            <Route exact path="/doneList" component={DoneListPage} />
-            <Route
-              exact
-              path="/done/:doneId"
-              component={({ match }) => (
-                <DonePage doneId={match.params.doneId} />
-              )}
-            />
-          </div>
-        </>
-      </Router>
+      <UserContext.Provider value={{ user }}>
+        <Router>
+          <>
+            {/* Navigation */}
+            <Navbar user={user} handleSignout={this.handleSignout} />
+            {/* Routes */}
+            <div className="app-container">
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/profile" component={ProfilePage} />
+              <Route exact path="/doneList" component={DoneListPage} />
+              <Route
+                exact
+                path="/done/:doneId"
+                component={({ match }) => (
+                  <DonePage doneId={match.params.doneId} />
+                )}
+              />
+            </div>
+          </>
+        </Router>
+      </UserContext.Provider>
     );
   }
 }
