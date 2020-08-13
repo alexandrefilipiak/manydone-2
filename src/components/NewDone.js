@@ -10,6 +10,9 @@ import { UserContext } from "../App";
 export default class NewDone extends Component {
   state = {
     name: "",
+    tags: ["Technology", "Web"],
+    selectedTags: [],
+    options: [],
     addDoneDialog: false,
   };
 
@@ -19,11 +22,14 @@ export default class NewDone extends Component {
       this.setState({ addDoneDialog: false });
       const input = {
         name: this.state.name,
-        owner: user.usernmae,
+        //category: ["Arts"],
+        tags: this.state.selectedTags,
+        owner: user.username,
       };
       const result = await API.graphql(graphqlOperation(createDone, { input }));
+      console.log({ result });
       console.log(`Created Done: id ${result.data.createDone.id}`);
-      this.setState({ name: "" });
+      this.setState({ name: "", selectedTags: "" });
     } catch (err) {
       console.error("Error adding new done", err);
       Notification.error({
@@ -31,6 +37,13 @@ export default class NewDone extends Component {
         message: `${err.message || "Error adding done"}`,
       });
     }
+  };
+
+  handleFilterTags = (query) => {
+    const options = this.state.tags
+      .map((tag) => ({ value: tag, label: tag }))
+      .filter((tag) => tag.label.toLowerCase().includes(query.toLowerCase()));
+    this.setState({ options });
   };
 
   render() {
@@ -66,6 +79,26 @@ export default class NewDone extends Component {
                       onChange={(name) => this.setState({ name })}
                       value={this.state.name}
                     />
+                  </Form.Item>
+                  <Form.Item label="Add tags">
+                    <Select
+                      multiple={true}
+                      filterable={true}
+                      placeholder="Market Tags"
+                      onChange={(selectedTags) =>
+                        this.setState({ selectedTags })
+                      }
+                      remoteMethod={this.handleFilterTags}
+                      remote={true}
+                    >
+                      {this.state.options.map((option) => (
+                        <Select.Option
+                          key={option.value}
+                          label={option.label}
+                          value={option.value}
+                        />
+                      ))}
+                    </Select>
                   </Form.Item>
                 </Form>
               </Dialog.Body>
