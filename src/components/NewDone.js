@@ -23,8 +23,8 @@ export default class NewDone extends Component {
       const input = {
         name: this.state.name,
         //category: ["Arts"],
-        tags: this.state.selectedTags,
-        owner: user.username,
+        description: this.state.selectedTags.concat(),
+        //owner: user.username,
       };
       const result = await API.graphql(graphqlOperation(createDone, { input }));
       console.log({ result });
