@@ -19,12 +19,18 @@ const Navbar = ({ user, handleSignout }) => (
           <span className="app-user">Hello, {user.username}</span>
         </Nav.Item>
         <Nav-Item index="3">
+          <NavLink to="doneList" className="nav-link">
+            <Icon name="setting" />
+            Done List
+          </NavLink>
+        </Nav-Item>
+        <Nav-Item index="4">
           <NavLink to="profile" className="nav-link">
             <Icon name="setting" />
             Profile
           </NavLink>
         </Nav-Item>
-        <Nav.Item index="4">
+        <Nav.Item index="5">
           <Button type="warning" onClick={handleSignout}>
             Sign out
           </Button>
