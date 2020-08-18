@@ -2,11 +2,23 @@ import React, { Component } from "react";
 import { graphqlOperation } from "aws-amplify";
 import { Connect } from "aws-amplify-react";
 import { listDones } from "../graphql/queries";
+import { onCreateDone } from "../graphql/subscriptions";
 import Error from "./Error";
 import { Loading, Card, Icon, Tag } from "element-react";
 import { Link } from "react-router-dom";
 
 const DoneList = () => {
+  const onNewDone = (prevQuery, newData) => {
+    console.log("subscription fired");
+    let updatedQuery = { ...prevQuery };
+    const updatedDoneList = [
+      newData.onCreateDone,
+      ...prevQuery.listlistDones.items,
+    ];
+    updatedQuery.listDones.items = updatedDoneList;
+    return updatedQuery;
+  };
+
   return (
     <>
       <h2 className="header">
@@ -17,13 +29,18 @@ const DoneList = () => {
         />
         DoneList
       </h2>
-      <Connect query={graphqlOperation(listDones)}>
+      <Connect
+        query={graphqlOperation(listDones)}
+        subscription={graphqlOperation(onCreateDone)}
+        onSubscriptionMsg={onNewDone}
+      >
         {({ data, loading, errors }) => {
           if (errors.length > 0) return <Error errors={errors} />;
           if (loading || !data.listDones) return <Loading fullscreen={true} />;
 
           return (
             <>
+              {/* {JSON.stringify(data)} */}
               {data.listDones.items.map((done) => (
                 <div key={done.id} className="my-2">
                   <Card
