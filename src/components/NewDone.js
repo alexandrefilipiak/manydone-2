@@ -61,6 +61,17 @@ export default class NewDone extends Component {
                   onClick={() => this.setState({ addDoneDialog: true })}
                 />
               </h1>
+
+              <Form inline={true}>
+                <Form.Item>
+                  <Input placeholder="Search Dones..." icon="circle-cross" />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="info" icon="search">
+                    Search
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
 
             <Dialog
